@@ -10,7 +10,7 @@ from turtle import st
 import socket
 #===============Funtion=================================
 won = False
-n = ""
+n = "Playing...."
 def check():
     count = 0
     global msg
@@ -32,7 +32,7 @@ def check():
         if (msg[6] == 'x'):
             n = "X WIN"              
         if (msg[6] == 'o'):
-            print ("Server WIN !!!!!!!!!!!!!!")
+            n = "O WIN"
         won = True                        
     if (msg[0] == msg[3]) and (msg[3] == msg[6]):        
         if (msg[0] == 'x'):
@@ -52,7 +52,7 @@ def check():
             n = "X WIN"  
             
         if (msg[2] == 'o'):
-            print ("Server WIN !!!!!!!!!!!!!!")
+            n = "O WIN"
         won = True                    
 
     if (msg[0] == msg[4]) and (msg[4] == msg[8]):
@@ -74,8 +74,16 @@ def check():
         if(count == 9):
             won = True
             n = "DRAW"
-                
+
+def showWin():
+    global n
+    top = Toplevel(root)
+    top.geometry("150x50")
+    top.title("Tic-Tac-Toe")
+    Label(top, text= n, font=('TH Sarabun New', 18, 'bold'),justify = CENTER).place(x=int(75/2),y=0)
+
 def XO(b,num):
+    global n
     global msg
     global status
     global won
@@ -87,6 +95,7 @@ def XO(b,num):
                 b.set("x")
                 msg[num]="x"
                 status=False
+                check()
         else:
             if(msg[num] == 'o' or msg[num] == 'x'):
                 status = False
@@ -94,8 +103,10 @@ def XO(b,num):
                 b.set("o")
                 msg[num]="o"
                 status=True
-    check()
-
+                check()
+    if(won):
+        print(n)
+        showWin()
 
 #===============variable================================
 root = Tk()
@@ -169,17 +180,7 @@ LabelText= Label(root,font=('TH Sarabun New',18,'bold',),textvariable = Label_te
 LabelText1= Label(root,font=('TH Sarabun New',18,'bold',),text = "Client = X",
               bd=16, anchor='w').grid(row=0,column=4)
 
-LabelText3= Label(root,font=('TH Sarabun New',18,'bold',),text = n,
-              bd=16, anchor='w').grid(row=1,column=4)
-
-LabelText3.set(n)
-
-LabelText3= Label(root,font=('TH Sarabun New',18,'bold',),text = n,
-              bd=16, anchor='w').grid(row=1,column=4)
-
 LabelText2= Label(root,font=('TH Sarabun New',18,'bold',),text = "Server = O",
               bd=16, anchor='w').grid(row=2,column=4)
-
-
 
 root.mainloop()
