@@ -12,6 +12,9 @@ import socket
 won = False
 n = ""
 play = False
+mplay = False
+hplay = False
+#======================================================
 def check():
     count = 0
     global msg
@@ -55,7 +58,6 @@ def check():
         if (msg[2] == 'o'):
             n = "O WIN"
         won = True                    
-
     if (msg[0] == msg[4]) and (msg[4] == msg[8]):
         if (msg[0] == 'x'):
             n = "X WIN"              
@@ -162,10 +164,16 @@ Label_text=StringVar()
 
 def Multiplay():
     global play
-    play = True
+    if(play):
+        pass
+    else:
+        play = True
 def plywhost():
     global play
-    play = True
+    if(play):
+        pass
+    else:
+        play = True
 def Submit():
     global player
     global player_var
