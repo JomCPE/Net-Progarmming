@@ -10,7 +10,8 @@ from turtle import st
 import socket
 #===============Funtion=================================
 won = False
-n = "Playing...."
+n = ""
+play = False
 def check():
     count = 0
     global msg
@@ -87,31 +88,36 @@ def XO(b,num):
     global msg
     global status
     global won
-    if(not won):
-        if status==True:
-            if(msg[num] == 'o' or msg[num] == 'x'):
-                status = True
+    global play
+    if(play):
+        if(not won):
+            if status==True:
+                if(msg[num] == 'o' or msg[num] == 'x'):
+                    status = True
+                else:
+                    b.set("x")
+                    msg[num]="x"
+                    status=False
+                    check()
             else:
-                b.set("x")
-                msg[num]="x"
-                status=False
-                check()
-        else:
-            if(msg[num] == 'o' or msg[num] == 'x'):
-                status = False
-            else:          
-                b.set("o")
-                msg[num]="o"
-                status=True
-                check()
-    if(won):
-        print(n)
-        showWin()
+                if(msg[num] == 'o' or msg[num] == 'x'):
+                    status = False
+                else:          
+                    b.set("o")
+                    msg[num]="o"
+                    status=True
+                    check()
+        if(won):
+            print(n)
+            showWin()
 
 #===============variable================================
 root = Tk()
-root.geometry("460x300")
+root.geometry("750x300")
 root.title("Tic-Tac-Toe")
+
+player_var = StringVar()
+player = ""
 
 status = True
 
@@ -143,7 +149,28 @@ btn8_text.set(msg[7])
 btn9_text=StringVar()
 btn9_text.set(msg[8])
 
+btnh_text=StringVar()
+btnh_text.set("Play With Host")
+
+btnm_text=StringVar()
+btnm_text.set("Multiplayer")
+
+sbtn_text=StringVar()
+sbtn_text.set("Submit")
+
 Label_text=StringVar()
+
+def Multiplay():
+    global play
+    play = True
+def plywhost():
+    global play
+    play = True
+def Submit():
+    global player
+    global player_var
+    player = player_var.get()
+    print(player)
 
 #===============Table===================================
 btn1 = Button(root,padx=16,pady=16,bd=8,fg="black",
@@ -174,13 +201,21 @@ btn9 = Button(root,padx=16,pady=16,bd=8,fg="black",
               font=("TH Sarabun New",20,'bold'),
               textvariable=btn9_text,bg="powder blue",command=lambda:XO(btn9_text,8)).grid(row=2,column=2)
 
-LabelText= Label(root,font=('TH Sarabun New',18,'bold',),textvariable = Label_text,
-              bd=16, anchor='w').grid(row=1,column=4)
-
-LabelText1= Label(root,font=('TH Sarabun New',18,'bold',),text = "Client = X",
+LabelText1= Label(root,font=('TH Sarabun New',18,'bold',),text = "Name",
               bd=16, anchor='w').grid(row=0,column=4)
 
-LabelText2= Label(root,font=('TH Sarabun New',18,'bold',),text = "Server = O",
-              bd=16, anchor='w').grid(row=2,column=4)
+Ref = Entry(root,font=('TH Sarabun New',18,'bold',),textvariable = player_var,
+              bd=5,insertwidth=4,bg='powder blue',justify = 'center').grid(row=0,column=5)
+
+sbtb = Button(root,padx=16,pady=13,bd=8,fg="black",
+              font=("TH Sarabun New",15,'bold'),
+              textvariable=sbtn_text,bg="powder blue",width = 3,command=lambda:Submit()).grid(row=0,column=6) 
+
+btnh = Button(root,padx=16,pady=13,bd=8,fg="black",
+              font=("TH Sarabun New",15,'bold'),
+              textvariable=btnh_text,bg="powder blue",command=lambda:Multiplay()).grid(row=1,column=5)
+btnm = Button(root,padx=16,pady=13,bd=8,fg="black",
+              font=("TH Sarabun New",15,'bold'),
+              textvariable=btnm_text,bg="powder blue",command=lambda:plywhost()).grid(row=2,column=5)
 
 root.mainloop()
