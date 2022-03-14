@@ -14,6 +14,8 @@ n = ""
 play = False
 mplay = False
 hplay = False
+player = "Player"
+status = True
 #======================================================
 def check():
     count = 0
@@ -113,15 +115,12 @@ def XO(b,num):
             print(n)
             showWin()
 
-#===============variable================================
+#===============TK================================
 root = Tk()
 root.geometry("750x300")
 root.title("Tic-Tac-Toe")
 
 player_var = StringVar()
-player = ""
-
-status = True
 
 msg = ['1','2','3','4','5','6','7','8','9']
 btn1_text=StringVar()
@@ -180,7 +179,19 @@ def Submit():
     player = player_var.get()
     print(player)
 
-#===============Table===================================
+#==============Network================================
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+while True: 
+    try:
+        server = "192.168.56.1"
+        port = 15555
+        s.connect((server, port))
+        break
+    except:
+        print("Wrong Server/Port try again!!")
+        server = input("Server IP : ")
+        port = int(input("Port : "))
+#===============GUI===================================
 btn1 = Button(root,padx=16,pady=16,bd=8,fg="black",
               font=("TH Sarabun New",20,'bold'),
               textvariable=btn1_text,bg="powder blue",command=lambda:XO(btn1_text,0)).grid(row=0,column=0)

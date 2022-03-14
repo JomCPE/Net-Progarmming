@@ -13,3 +13,6 @@ host = socket.gethostbyname(socket.gethostname())
 port = 15555
 serversocket.bind((host, port))
 serversocket.listen(5)
+while True:
+    c,addr = serversocket.accept()
+    print(addr)
